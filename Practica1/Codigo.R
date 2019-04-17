@@ -48,7 +48,7 @@ glimpse(data_raw)
 status <- df_status(data_raw)
 
 ## ---------------------------------------------------------------
-## 2. Eliminar columnos no útiles
+## 2. Eliminar columnas no útiles
 status <- df_status(data_raw)
 
 ## columnas con NAs
@@ -65,18 +65,18 @@ remove_cols <- bind_rows(
 data_reduced <- data_raw %>%
   select(-one_of(remove_cols$variable))
 
-sum(is.na(data_reduced))
-mean(is.na(data_reduced))
 
 
 # Visualización de la variabale Target
 ggplot(data_reduced, aes(x=target)) + geom_histogram(binwidth=.5)
 
 #Valores perdidos
-colnames(data_reduced) 
-imputation <- mice(data_reduced, method = c("mean"), maxit = 1)
 
-data_imp <- complete(imputation) %>%
+# Contamos el número de valores perdidos
+sum(is.na(data_reduced))
+colnames(data_reduced) 
+
+data_imp <- data_reduced %>%
   na.exclude()
 
 sum(is.na(data_imp))
@@ -94,8 +94,7 @@ prop.table(table(data_imp$target))
     data_test %>%
     mutate(target = 0)
 )
-write_csv(test, "all-died.csv")
-
+write_csv(test, "all-negative.csv")
 
 
 ## Filtrado de datos
