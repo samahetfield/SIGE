@@ -104,8 +104,9 @@ filtered <-
   arrange(var_0)
 
 ### Histograma
+# VIsualizamos la distribución de los datos de var_0 cuando target == 1
 ggplot(filter(data_imp, target == 1)) +
-  geom_histogram(aes(x = var_4, fill = as.factor(target)), binwidth = 1)
+  geom_histogram(aes(x = var_0, fill = as.factor(target)), binwidth = 1)
 
 #Correlación de variables
 M <-cor(data_imp)
@@ -119,7 +120,7 @@ corrplot(Mone, method = "square")
 
 #Ejemplo de cómo se visualizan los outliers en una variable
 outlier_values <- boxplot.stats(data_imp$var_199)$out
-boxplot(data_imp$var_199, main="Pressure Height", boxwex=0.1)
+boxplot(data_imp$var_199, main="Outliers", boxwex=0.1)
 mtext(paste("Outliers: ", paste(outlier_values, collapse=", ")), cex=0.6)
 
 # Pasamos los datos a un nuevo dataframe que modificaremos
@@ -143,8 +144,8 @@ for(column in colnames(data_imp)){
 }
 
 # Comprobamos que realmente se han eliminado
-boxplot(data_imp$var_181, main="column", boxwex=0.1)
-boxplot(data_no_outliers$var_181, main="column", boxwex=0.1)
+boxplot(data_imp$var_199, main="column", boxwex=0.1)
+boxplot(data_no_outliers$var_199, main="column", boxwex=0.1)
 
 sum(is.na(data_no_outliers))
 
